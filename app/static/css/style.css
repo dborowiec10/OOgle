@@ -1,0 +1,44 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css);
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,700);
+
+
+.blue {
+    color: #2A63BF;
+}
+
+.red {
+    color: #E34133;
+}
+
+.yellow {
+    color: #F3B828;
+}
+
+.green {
+    color: #32A556;
+}
+
+.feature-grid {
+    position: relative;
+}
+
+.feature-grid:after {
+    clear: both;
+    content: '';
+    display: block;
+}
+
+.feature-grid .feature {
+    float: left;
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+h5, p {
+    float: left;
+}
+
+p {
+    text-align: justify;
+    text-justify: inter-word;
+}

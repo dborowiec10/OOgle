@@ -1,0 +1,6 @@
+[submodule "OOgle"]
+	path = OOgle
+	url = https://github.com/dborowiec10/OOgle.git
+[submodule "ApolloNIA"]
+	path = ApolloNIA
+	url = https://github.com/dborowiec10/ApolloNIA.git
