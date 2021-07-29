@@ -6,7 +6,7 @@
 # For explanations of all config options below see docs/USAGE.md or the man page.
 sync_dir = "~/OneDrive"
 skip_file = "~*|.~*|*.tmp"
-monitor_interval = "60"
+monitor_interval = "300"
 # skip_dir = ""
 # log_dir = "/var/log/onedrive/"
 drive_id = "b!XnOPH69OOUG5LT1x03Dls14O1igy3DdLpDzfeC8vgOvxrBG3XypTRKdjFAozSUP9"

@@ -3,6 +3,7 @@ import os
 import json
 import math
 import urllib, urllib.request
+import glob
 from readabilipy import simple_json_from_html_string
 import nltk
 import requests
@@ -63,8 +64,6 @@ class MyEncoder(json.JSONEncoder):
         if isinstance(obj, (Data, Record, Payload)): 
             return obj._asdict()
         return json.JSONEncoder.default(self, obj)
-
-
 
 # dict str->list(str)
 global_inverted_index = {}
@@ -174,8 +173,6 @@ def initialize(data_path):
     for s in stop:
         stop_words[s] = True
 
-import glob
-
 def get_pdf_sources():
     sources_dir_path = os.path.join(glob_data_path, "sources", "**/*.pdf")
     local_sources = []
@@ -241,11 +238,8 @@ def refresh_index():
     load_index(inverted_index_path)
     local_record_list = load_records(local_records_path)
     global_inverted_index = {}
-
     sync_pdf_sources()
-
     records_to_index(local_record_list)
-
     save_index(inverted_index_path)
     save_records(local_records_path, local_record_list)
 
@@ -345,6 +339,7 @@ def record_from_data(data, key, is_remote=True):
     return Record(key, data.title, data.link, data.content[:500], tok_freqs, is_remote)
 
 def search(query, _type):
+    check_for_changes()
     start_time = datetime.now()
     results = {}
     queries = analyze(query)
