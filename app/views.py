@@ -26,7 +26,7 @@ def authenticate():
 def index():
     query = request.args.get("query", None)
     if query:
-        result = backend.search(query, "AND")
+        result = backend.search(query)
         return render_template("index.html", 
             query=query,
             response_time=result.time,
@@ -42,12 +42,7 @@ def index():
 def addData():
     global glob_data
     data = json.loads(request.data)
-    data = backend.Data(data["title"], data["link"], data["content"], data["tags"])
-    record = backend.record_from_data(data, "lc" + str(len(backend.local_record_list)), is_remote=True)
-    backend.local_record_list[record.id] = record
-    with open(backend.local_records_path, "w") as f:
-        json.dump(backend.local_record_list, f, cls=backend.MyEncoder)
-    backend.refresh_index()
+    backend.add_data(data)
     return make_response("", 200)
 
 
@@ -62,7 +57,7 @@ def scrape():
 @cross_origin()
 def staticly():
     title = dict(request.args)['t']
-    sources = backend.get_pdf_sources()
+    sources = backend.get_sources()
     link = ""
     for tt, lnk in sources:
         if title == tt:
@@ -76,19 +71,12 @@ def staticly():
 
 @app.template_filter('truncate_title')
 def truncate_title(title):
-    """
-    Truncate title to fit in result format.
-    """
     return title if len(title) <= 75 else title[:75]+"..."
 
 @app.template_filter('truncate_description')
 def truncate_description(description):
-    """
-    Truncate description to fit in result format.
-    """
     if len(description) <= 200 :
         return description
-
     cut_desc = ""
     character_counter = 0
     for i, letter in enumerate(description) :
