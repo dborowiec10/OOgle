@@ -1,0 +1,11 @@
+requests==2.18.4
+PyMuPDF==1.18.15
+Flask==2.0.1
+flask_cors==3.0.10
+flask_httpauth==4.4.0
+nltk==3.6.2
+readabilipy==0.2.0
+youtube_transcript_api==0.4.1
+cryptography==3.4.7
+pyOpenSSL==20.0.1
+watchdog==2.1.3

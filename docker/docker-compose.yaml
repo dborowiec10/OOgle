@@ -1,0 +1,26 @@
+version: "3.2"
+services:
+    onedrive:
+        image: driveone/onedrive:latest
+        restart: unless-stopped
+        environment:
+            - ONEDRIVE_UID=52438
+            - ONEDRIVE_GID=226
+        volumes: 
+            - type: bind
+              source: $HOME/OOgle/docker/conf
+              target: /onedrive/conf
+            - type: bind
+              source: $HOME/OOgle/data
+              target: /onedrive/data
+        entrypoint: /usr/local/bin/onedrive
+        command: "--monitor --resync --confdir /onedrive/conf --syncdir /onedrive/data --single-directory 'OOgle' --auth-files /onedrive/conf/in_url:/onedrive/conf/out_url"
+    app:
+        image: oogle:latest
+        restart: unless-stopped
+        volumes:
+            - type: bind
+              source: $HOME/OOgle/data
+              target: /app/data
+        ports:
+          - "5000:5000"

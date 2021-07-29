@@ -184,6 +184,23 @@ def get_pdf_sources():
     local_sources = [(os.path.split(l)[-1][:-4], l) for l in local_sources]
     return local_sources
 
+def check_for_changes():
+    sources_dir_path = os.path.join(glob_data_path, "sources", "**/*.pdf")
+    local_sources = []
+    for filename in glob.iglob(sources_dir_path, recursive=True):
+        local_sources.append(filename)
+    if os.path.exists(os.path.join(glob_data_path, "sources_count.txt")):
+        with open(os.path.join(glob_data_path, "sources_count.txt"), "r") as f:
+            count = int(f.read())
+        if count != len(local_sources):
+            with open(os.path.join(glob_data_path, "sources_count.txt"), "w") as f1:
+                f1.write(str(count))
+            refresh_index()
+    else:
+        with open(os.path.join(glob_data_path, "sources_count.txt"), "w") as f1:
+            f1.write(str(len(local_sources)))
+            refresh_index()
+
 def sync_pdf_sources():
     global local_record_list
 
@@ -393,7 +410,7 @@ def scrape_yt(link:str):
 def scrape_pdf(link:str):
     if "file:///" in link:
         link = link[8:]
-    with fitz.open(link) as doc:
+    with fitz.open(link, filetype = "pdf") as doc:
         text = ""
         for page in doc:
             text += page.getText()
